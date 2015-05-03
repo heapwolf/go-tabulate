@@ -14,24 +14,18 @@ func Tabulate(screenWidth int, items []string) string {
 		}
 	}
 
-	var base = float64(screenWidth) / float64(colWidth)
-	var maxColumns = int(math.Floor(base))
-
-	// build the results
-	return makerow(items, colWidth, maxColumns)
-}
-
-func makerow(group []string, width int, maxColumns int) string {
+	var maxBase = float64(screenWidth) / float64(colWidth)
+	var maxColumns = int(math.Floor(maxBase))
 
 	var output = ""
-	var length = len(group)
+	var length = len(items)
 
 	if length == 0 {
 		return ""
 	}
 
-	var base = float64(length) / float64(maxColumns)
-	var minRows = int(math.Ceil(base))
+	var minBase = float64(length) / float64(maxColumns)
+	var minRows = int(math.Ceil(minBase))
 
 	for row := 0; row < minRows; row++ {
 		for col := 0; col < maxColumns; col++ {
@@ -42,13 +36,13 @@ func makerow(group []string, width int, maxColumns int) string {
 				break
 			}
 
-			var item = group[idx]
+			var item = items[idx]
 			output += item
 
 			// add the padding to the end of the item
 			if col < maxColumns-1 {
 				itemLen := len(item)
-				for s := 0; s < width-itemLen; s++ {
+				for s := 0; s < colWidth-itemLen; s++ {
 					output += " "
 				}
 			}
